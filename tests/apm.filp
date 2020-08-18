@@ -1,0 +1,14 @@
+#!/home/angel/src/filp/filp
+
+"/proc/apm" open dup read swap close
+" " split 3 index ?
+
+/advertencia "
+Esta grabación está protegida por la ley.
+a los que distraxeren o cualquier modo enagenaren
+cualquier libro de esta bibliotheca.
+" set
+
+$advertencia ?
+
+/ARGV adump { ? } foreach

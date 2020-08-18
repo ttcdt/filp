@@ -1,0 +1,39 @@
+Filp README
+===========
+
+ Filp - An embeddable, reverse polish notation programming language
+ ttcdt <dev@triptico.com>
+ Home Page: https://triptico.com/software/filp.html
+
+This software was original written by Angel Ortega. The TTCDT Dev Team
+has taken over its maintenance. We don't plan to make any changes; we
+only host it because it's needed to build fr2002 [Tiny 2019]
+
+Filp is a stack based, reverse polish notation programming language, not
+too different from Forth or PostScript (indeed, Filp was an acronym for
+Filp Is Like Postscript, years before it started diverging from it).
+It was originally developed as an embeddable scripting language for games,
+but now is pretty stable and suitable for other tasks as well. Filp's main
+problem is the lack of good documentation and examples.
+
+This software is released into the public domain.
+
+Features
+--------
+
+ - Easily embeddable inside C programs.
+ - Reverse polish notation (stack based).
+ - Data types: scalars (numeric and string), external integers,
+   reals and strings (from host C program), file descriptors,
+   lists (of other types in the stack), arrays (of any other
+   types, including arrays and hashes), hashes (of any other
+   types, including arrays and hashes).
+ - Rudimentary garbage collection.
+ - Rich library to manipulate the stack, string management,
+   sprintf and sscanf, boolean operations, basic math,
+   list management (seeking, indexing, reversing, converting
+   from/to scalars), array and hash manipulation.
+ - Control structures: if, unless, ifelse, repeat, loop, for,
+   while, switch, foreach, map...
+ - File commands for line-buffered and block-buffered files.
+ - Compilable as a static or dynamic library.

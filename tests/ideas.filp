@@ -1,0 +1,159 @@
+
+/* menú lf - cr/lf */
+mp_menu_cr_lf {
+mp_cr_lf $mp_cr_lf not set } def
+
+/* menú save tabs */
+mp_menu_save_tabs {
+mp_save_tabs $mp_save_tabs not set
+} def
+
+mp_menu_open { mp_dlg_open } def
+
+mp_menu_save {
+/* guarda el valor de mp_save_tabs */
+tmp $mp_save_tabs set
+
+/* si el documento es tipo makefile,
+   activa mp_save_tabs */
+mp_doc_type "Makefile" eq
+{ mp_save_tabs 1 set } if
+
+/* graba */
+mp_save
+
+/* recupera el valor */
+mp_save_tabs $tmp set
+tmp unset
+} set
+
+/* otra forma, más filp: */
+mp_menu_save {
+$mp_save_tabs /* en la pila el valor actual */
+mp_doc_type "Makefile" eq { mp_save_tabs 1 set } if
+mp_save
+/* recupera el valor, pusheando el nombre de la variable,
+   se invierten el valor y el nombre y se define */
+mp_save_tabs swap set } set
+
+/* ó */
+mp_menu_save {
+mp_save_tabs $mp_save_tabs /* ... */ set } set
+
+mp_context_help {
+/* ayuda contextual */
+
+/* calcula el comando a ejecutar */
+mp_doc_type "Perl" eq
+{ "perldoc -f " } { "man " } ifelse
+
+/* mete la palabra en curso y concatena */
+mp_get_word swap strcat
+
+/* ejecuta y lee sobre un nuevo documento */
+mp_pipe_output
+
+} set
+
+
+perl_doc_type {
+/* crea el tipo de documento Perl */
+"Perl" mp_new_doc_type
+NULL ".pl" ".PL" ".Pm" mp_new_doc_ext
+"\"'`" mp_new_doc_open_quote
+"\"'`" mp_new_doc_close_quote
+"#!/usr/bin/perl" mp_new_doc_detect
+NULL "for" "if" "next" "last" "else" "elsif" "unless" mp_new_doc_tokens
+NULL "scalar" "my" "undef" "defined" "use" "package" mp_new_doc_vars
+} def
+
+
+/* forma alternativa */
+perl_doc_type {
+"Perl" mp_new_doc_type
+[ ".pl" ".PL" ".Pm" ] mp_new_doc_ext
+[ "for" "if" "next" "last" "else" "elsif" "unless" ] mp_new_doc_tokens
+[ "scalar" "my" "undef" "defined" "use" "package" ] mp_new_doc_vars
+} def
+
+
+html_doc_type {
+/* crea el tipo de documento HTML */
+{
+"HTML" mp_new_doc_type
+NULL ".html" ".htm" ".src" mp_new_doc_ext
+"<&\"" mp_new_doc_open_quote
+">;\"" mp_new_doc_close_quote
+"<html>" mp_new_doc_detect
+
+/* crea un procedimiento especial de detección */
+html_doc_detect mp_new_proc_detect
+} def
+
+html_doc_detect {
+/* procedimiento especial de detección para documentos HTML */
+/* deberá devolver true en el stack si el documento es html */
+
+/* si la extensión es .html, lo es */
+mp_file_extension ".html" eq { true return } if
+
+/* si aparece <html>, lo es */
+"<html>" mp_search { true return } if
+
+false
+} def
+
+
+/* idea para un comando filp de búsqueda */
+NULL "uno" "dos" "tres" "cuatro" "tres" seek /* devolverá 2 */
+NULL "uno" "dos" "tres" "cuatro" "cinco" seek /* devolverá 0 */
+
+/* para una búsqueda de extensiones */
+NULL ".htm" ".html" ".src" mp_file_extension seek /* en el stack habrá
+un número no cero si la extensión es alguna de esas ó 0 si no */
+{ true return } if
+
+/* así, dejo en el mp-synhi (que ahora se llamará tipo de documento)
+   sólo lo que depende directamente de mp: los colores. La detección
+   puede ir en procedimientos filp */
+
+doc_type_html {
+"HTML" mp_new_doc_type
+"<&" mp_new_doc_open_quote
+">;" mp_new_doc_close_quote
+is_doc_type_html mp_new_doc_detect
+} def
+
+/* uou! el 1 vale 2! no, sólo $1 valdrá 2 */
+1 2 set
+
+/* uno de mis preferidos: si es un xterm cambia el color */
+"TERM" getenv "xterm" eq
+{ mp_color_string_ink "CYAN" set mp_set_colors } if
+
+/* un foreach */
+NULL "rojo" "amarillo" "verde" { print } foreach
+
+/* un repeat como en PostScript */
+5 { print } repeat
+
+/* un split */
+"esta es una cadena separada con espacios" " " split
+/* y deja en el stack:
+   NULL "espacios" "con" "separada" "cadena" "una" "es" "esta"	*/
+
+/* y un join */
+NULL "guiones" "con" "unir" "para" "cadena" "otra" "-" join
+/* y deja
+   "otra-cadena-para-unir-con-guiones" */
+
+/* un while */
+{ /* condición */ $f read } { /* bucle */ print } while
+
+
+/* un comando grep como el de la shell	*/
+grep {
+F $fichero open set
+{ $F read } { dup $cadena instr { chop ? } { pop } ifelse } while
+$F close
+} set

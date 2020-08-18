@@ -1,0 +1,7 @@
+.config.log
+Makefile
+config.cflags
+config.h
+config.ldflags
+filp
+makefile.opts

@@ -1,0 +1,19 @@
+Filp's features
+===============
+
+ - Easily embeddable inside C programs.
+ - Reverse polish notation (stack based).
+ - Data types: scalars (numeric and string), external integers,
+   reals and strings (from host C program), file descriptors,
+   lists (of other types in the stack), arrays (of any other
+   types, including arrays and hashes), hashes (of any other
+   types, including arrays and hashes).
+ - Rudimentary garbage collection.
+ - Rich library to manipulate the stack, string management,
+   sprintf and sscanf, boolean operations, basic math,
+   list management (seeking, indexing, reversing, converting
+   from/to scalars), array and hash manipulation.
+ - Control structures: if, unless, ifelse, repeat, loop, for,
+   while, switch, foreach, map...
+ - File commands for line-buffered and block-buffered files.
+ - Also usable as an external scripting language.

@@ -1,0 +1,83 @@
+/* tipos de documento */
+
+/* rutinas de ayuda */
+
+mp_file_extension
+/* deja en el TOS la extensión de una cadena */
+{
+	/* si se quiere calcular desde el nombre del texto, añadir
+	   mp_get_text_name */
+	/* separa por puntos y coge el último trozo en _tmp */
+	"." split _tmp swap set
+
+	/* saca el resto */
+	{ pop } foreach
+
+	/* si se quiere devolver NULL cuando no haya extensión
+	   (en este caso da igual, pero puede que en otros no)
+	   añadir un dup al principio y sustituir $_tmp por
+
+	   $_tmp == { NULL } { $_tmp } ifelse
+
+	*/
+
+	$_tmp
+} set
+
+
+mp_file_extension_2
+{ dup "." split _tmp swap set { pop } foreach
+	 $_tmp == { NULL } { $_tmp } ifelse } set
+
+mp_doc_detection_seek
+/* busca la cadena en la pila salvando la posición */
+{
+	/* deja en el TOS la cadena a buscar */
+	mp_x_cursor swap mp_y_cursor swap
+
+	mp_move_bof
+	mp_seek { mp_move_xy true exit } if
+
+	mp_move_xy false
+} set
+
+
+/* Perl */
+
+"Perl" mp_new_doc_type
+"mp_perl_doc_detection" mp_new_doc_detection
+[ "for" "if" "next" "last" "else" "elsif" "unless" ] mp_new_doc_tokens
+
+mp_perl_doc_detection
+{
+	/* comprueba las extensiones */
+
+	[ ".pl" ".PL" ".Pm" ] mp_file_extension seek
+	{ true exit } if
+
+	/* guarda la posición actual */
+	mp_x_cursor mp_y_cursor
+
+	/* busca cadenas identificativas */
+	mp_move_bof "#!/usr/bin/perl" mp_seek
+	{ mp_move_xy true exit } if
+
+	/* si no, no es */
+	mp_move_xy false
+} set
+
+
+/* HTML */
+
+"HTML" mp_new_doc_type
+"mp_html_doc_detection" mp_new_doc_detection
+"<&'\"" mp_new_doc_open_quote
+">;'\"" mp_new_doc_close_quote
+
+mp_html_doc_detection
+{
+	[ ".html" ".htm" ".src" ] mp_file_extension seek
+	{ true exit } if
+
+	"<html>" mp_doc_detection_seek
+} set

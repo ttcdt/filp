@@ -1,0 +1,63 @@
+/* test for filp arrays */
+/* Angel Ortega angel@triptico.com> */
+
+"Array test" ?
+"----------" ?
+
+/* error trap */
+/_test { "Testing %s... " sprintf ?? exec { "OK!" ? } { "Error!" ? end } ifelse } set
+
+/* create an array */
+/days ( 'monday' 'tuesday' 'wednesday' 'thursday' 'friday' ) =
+
+/* test array size */
+{ /days 0 @ 5 == } "Array size 1" _test
+
+/* test array size, again */
+{ $days 0 @ 5 == } "Array size 2" _test
+
+/* test element */
+{ /days 1 @ 'monday' eq } "Array element" _test
+
+/* test insertion at the beginning */
+/days 1 'sunday' ains
+
+{ /days 0 @ 6 == } "Array size after insertion at the beginning" _test
+
+{ /days 1 @ 'sunday' eq } "Array element after insertion at the beginning" _test
+
+/* test insertion in the middle */
+/days 4 'foobar' ains
+
+{ /days 0 @ 7 == } "Array size after insertion in the middle" _test
+
+{ /days 4 @ 'foobar' eq } "Array element after insertion in the middle 1" _test
+
+{ /days 5 @ 'wednesday' eq } "Array element after insertion in the middle 2" _test
+
+/* test insertion at the end */
+/days 0 'saturday' ains
+
+{ /days 0 @ 8 == } "Array size after insertion at the end" _test
+
+{ /days 8 @ 'saturday' eq } "Array element after insertion at the end" _test
+
+/* test deletion */
+/days 4 adel
+
+{ /days 0 @ 7 == } "Array size after deletion" _test
+
+{ /days 4 @ 'wednesday' eq } "Array element after deletion" _test
+
+/* test aseek */
+{ /days 'thursday' aseek 5 == } "Array seeking 1" _test
+{ /days 'foobar' aseek 0 == } "Array seeking 2" _test
+
+"\nBelow there must be the 7 days of the week (reversed):" ?
+/days adump { ? } foreach
+
+"The same, but in correct order:" ?
+/days adump reverse { ? } foreach
+
+"The same, but alphabetically ordered:" ?
+$days asort adump { ? } foreach

@@ -1,0 +1,4 @@
+/f "/boot/vmlinuz" open =
+/q ">qq" open =
+{ 1000 $f bread } { $q bwrite "block" ? } while
+$f $q close close

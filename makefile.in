@@ -1,0 +1,99 @@
+# -*- Mode: sh
+
+LIB=libfilp.a
+
+all: $(TARGET) docs
+
+PROJ=filp
+
+ADD_DOCS=
+MP_DOCCER_DOCS=doc/filp_api.txt doc/filp_fref.txt
+GRUTATXT_DOCS=
+G_AND_MP_DOCS=doc/filp_api.html doc/filp_fref.html
+
+OBJS=filp_core.o filp_util.o filp_array.o filp_parse.o \
+	filp_lib.o filp_slib.o gnu_regex.o filp_interp.o
+
+DIST_TARGET=/tmp/$(PROJ)-$(VERSION)
+
+##################################################################
+
+version:
+	@echo $(VERSION)
+
+.c.o:
+	$(CC) $(CFLAGS) `cat config.cflags` -c $<
+
+$(LIB): $(OBJS)
+	$(AR) rv $(LIB) $(OBJS)
+
+dep:
+	gcc -MM *.c > makefile.depend
+
+$(TARGET): $(OBJS) $(LIB)
+	$(CC) $(CFLAGS) $(OBJS) `cat config.ldflags` -o $@
+
+shared: clean
+	$(MAKE) CFLAGS="-fPIC -DFILP_SHARED"
+	$(MAKE) libfilp.so.0.0
+
+libfilp.so.0.0: $(OBJS)
+	$(CC) -g -shared -Wl,-soname,libfilp.so.0 -o $@ $(OBJS) -lc
+
+filp_shared: filp_interp.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -I/usr/local/include \
+		filp_interp.c -L/usr/local/lib -lfilp -o filp
+
+clean:
+	rm -f $(TARGET) $(LIB) $(OBJS) *.o tags *.tar.gz
+
+distclean: clean
+	rm -f config.h config.cflags config.ldflags makefile.opts Makefile
+
+realclean: distclean docsclean
+
+realdistclean: realclean
+
+.SUFFIXES: .txt .html
+
+.txt.html:
+	grutatxt < $< > $@
+
+doc/filp_api.txt:
+	mp_doccer filp_array.c filp_core.c filp_parse.c filp_util.c \
+		-o doc/filp_api -f grutatxt \
+		-t "The Filp C API" \
+		-b "This reference documents version $(VERSION) of the C API." \
+		-a "Angel Ortega - angel@triptico.com"
+
+doc/filp_fref.txt:
+	mp_doccer filp_lib.c filp_slib.c \
+		-o doc/filp_fref -f grutatxt \
+		-t "The Filp Command Reference" \
+		-b "This reference documents version $(VERSION) of the Filp programming language." \
+		-a "Angel Ortega - angel@triptico.com"
+
+docs: $(DOCS)
+
+docsclean:
+	rm -f $(MP_DOCCER_DOCS) doc/*.html
+
+distcopy: distclean docs
+	mkdir -p $(DIST_TARGET) ; \
+	tar cf - * | (cd $(DIST_TARGET) ; tar xf -)
+
+dist: distcopy
+	(cd /tmp ; tar czf - $(PROJ)-$(VERSION)/* ) > $(PROJ)-$(VERSION).tar.gz ; \
+	rm -rf $(DIST_TARGET)
+
+install: installdoc
+	install $(TARGET) $(PREFIX)/bin
+
+installdoc:
+	install -m 644 doc/* $(DOCDIR)
+	for f in README AUTHORS COPYING TODO RELEASE_NOTES ; do \
+		[ -f $$f ] && install -m 644 $$f $(DOCDIR)/$$f.$(PROJ) ; \
+	done
+
+Makefile: VERSION makefile.in
+	./config.sh $(CONF_ARGS)

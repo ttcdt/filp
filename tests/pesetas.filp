@@ -1,0 +1,4 @@
+#!/usr/bin/env filp
+
+/* converts first argument in spanish pesetas to euros */
+/filp_real 1 = /ARGV 1 @ 166.386 / '%.2f euros' sprintf ?

@@ -1,0 +1,2 @@
+/filp_stack_size 1000000 =
+[ 1 1 10000 { dup 100 * } for hash

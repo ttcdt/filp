@@ -1,0 +1,382 @@
+filp Changelog
+==============
+
+1.0.0rc1 - vie nov 14 23:17:41 CET 2003
+---------------------------------------
+
+ - No changes; start of release candidates to 1.0.0.
+   Nothing new should be added, just bugfixes.
+
+0.9.41c - lun jul 14 19:15:19 CEST 2003
+---------------------------------------
+
+ - New 'keys' and 'values' commands, like the Perl ones.
+
+0.9.41b - sáb jun 14 12:15:36 CEST 2003
+---------------------------------------
+
+ - Several improvements to arrays and hashes.
+
+0.9.41 - lun may 26 19:48:00 CEST 2003
+--------------------------------------
+
+ - Filp now has hashes!
+
+0.9.40c - lun may 12 16:32:32 CEST 2003
+---------------------------------------
+
+ - A new command, 'dumper' to dump a value (ala Perl's Data::Dumper).
+
+0.9.40b - lun abr 21 20:26:10 CEST 2003
+---------------------------------------
+
+ - Got rid of filp_dup_value(), filp_push_nd() and filp_set_symbol_nd();
+   no duplication of symbols is done, just re-references.
+
+0.9.40a - dom abr 20 17:39:43 CEST 2003
+---------------------------------------
+
+ - All NULL values are the same.
+ - Got rid of the filp_string_pop() function.
+
+0.9.40 - mié abr  9 17:38:47 CEST 2003
+--------------------------------------
+
+ - New garbage collection in values (merged from branch).
+
+0.9.31 - mié mar 19 09:51:15 CET 2003
+-------------------------------------
+
+ - Last version using the explicit destroy value approach.
+
+0.9.30e - lun ene 27 13:00:23 CET 2003
+--------------------------------------
+
+ - Got rid of _filp_cpu* variables.
+ - New 'timer' command that returns a millisecond timer.
+
+0.9.30d - mar dic 10 20:14:39 CET 2002
+--------------------------------------
+
+ - Arrays are created on the fly if using aset() or ains().
+
+0.9.30c - dom nov 24 11:57:48 CET 2002
+--------------------------------------
+
+ - Better exit status control from filp functions by
+   defining FILP_* status constants.
+
+0.9.30b - sáb nov 23 18:15:18 CET 2002
+--------------------------------------
+
+ - Code block separators ({ and }) don't need to be separated
+   by a separator from the rest of the code anymore.
+
+0.9.30a - sáb oct 26 22:21:57 CEST 2002
+---------------------------------------
+
+ - New command, '=~', to match POSIX regular expressions
+   (using the GNU regex library).
+
+ - New error, 'not implemented'.
+
+ - New error, 'syntax error' (just for regexes by now).
+
+ - New internal filp_bool_push() function.
+
+0.9.29e - vie jul 12 19:55:56 CEST 2002
+---------------------------------------
+
+ - New flag _filp_isolate to isolate potentially
+   dangerous commands from being executed.
+
+0.9.29d - dom feb 17 19:00:00 CET 2002
+--------------------------------------
+
+ - Bug fixed when assigned an scalar to a symbol
+   that already holds an array.
+
+0.9.29c - vie feb 15 10:52:31 CET 2002
+--------------------------------------
+
+ - New variable, 'filp_lang', that holds the two
+   character name of the user preferred language.
+
+ - New command, 'enum', to create an enumerated
+   list of constants.
+
+0.9.29b - mié feb 13 20:13:28 CET 2002
+--------------------------------------
+
+ - Comparison code (eq, lt, etc.) is smarter.
+
+ - New 'sort' and 'asort' commands, to sort a list
+   and an array.
+
+0.9.29 - mié feb 13 20:13:03 CET 2002
+-------------------------------------
+
+ - All new array code has been integrated; the
+   slow and provisional (that had lasted more than a year!)
+   array code is gone. Anyway, this version should
+   be considered extremely experimental.
+
+0.9.28c - jue feb  7 18:17:42 CET 2002
+--------------------------------------
+
+ - Misc. cleaning in array processing code.
+
+ - New parameter switch to the interpreter, '-r',
+   to force using real numbers in math operations.
+
+0.9.28b - mie feb  6 18:21:39 CET 2002
+--------------------------------------
+
+ - Some internal modifications to completely isolate
+   array code, to prepare a big change in array storage.
+
+0.9.28 - sáb feb  2 11:36:22 CET 2002
+-------------------------------------
+
+ - Bug fixed in ARGV passing to a '-e' program.
+
+0.9.27g - mié ene  9 17:49:25 CET 2002
+--------------------------------------
+
+ - Improved documentation of the API and filp commands.
+
+ - New command 'eval'.
+
+ - New error 'file not found', for the 'load' command.
+
+ - The 'load' command now correctly reports errors.
+
+0.9.27f - dom dic 16 14:21:49 CET 2001
+--------------------------------------
+
+ - The string quoting is more like Perl: single quoted
+   strings (') are used literally (no backslash characters
+   interpreted); the double quoted strings (") ones do,
+   and variables (prefixed with $ as usual) are interpolated
+   into.
+
+ - Command line history (^P, ^N) in filp_console().
+
+0.9.27e - lun dic 10 17:20:07 CET 2001
+--------------------------------------
+
+ - The 'false' command now pushes a NULL value instead
+   of a 0 value; this had changed the comparison commands
+   to return a NULL instead of a 0 on a non-true test.
+   The 'while' command has also been changed to only
+   exit the loop when the test block code returns NULL
+   and not 0, a thing that was a source of all kinds
+   of problems (as being unable to process a list with
+   some zero values or even reading a 0 from a file).
+   Anyway, this is a very serious change and can be
+   a source to all kind of new problems. This version
+   should be assumed as experimental.
+
+ - Unification of the Unix and Win32 versions of the
+   'glob' command so that they give the same results on both
+   systems. A bug in the Unix version has also been fixed.
+
+0.9.27d - dom dic  9 11:57:04 CET 2001
+--------------------------------------
+
+ - Bug fixed in the decimal number processing of 'sscanf'.
+
+ - Bug fixed in the 'reverse' command.
+
+0.9.27c - jue nov 22 20:22:41 CET 2001
+--------------------------------------
+
+ - Misc. code cleaning.
+
+ - New 'dupnz' command.
+
+0.9.27b - jue oct 18 22:40:16 CEST 2001
+---------------------------------------
+
+ - New 'aseek' command, to search inside an array.
+
+ - New convenience function filp_string_pop().
+
+0.9.27a - mar sep 11 17:41:29 CEST 2001
+---------------------------------------
+
+ - Scalars are stored with size instead of being null
+   terminated strings. This make the bread and bwrite
+   functions realiable.
+
+ - Open and close can now be used to open pipes, so
+   popen and pclose disappear.
+
+0.9.26j - lun sep 10 18:10:11 CEST 2001
+---------------------------------------
+
+ - sscanf format for ignoring values (@) has been substituted
+   with the more standard %*.
+
+0.9.26i - sáb jul 21 16:06:24 CEST 2001
+---------------------------------------
+
+ - New bread and bwrite commands.
+
+ - Internal bugfix: new FILP_SCALAR values can be NULL.
+
+ - New error: 6 (file expected).
+
+ - New internal function, filp_push_nd(). Used to push
+   directly a value, without duplicating it (this also
+   makes destroying the pushed value unnecessary).
+
+ - New internal function, filp_set_symbol_nd(). Analog
+   to filp_push_nd(), but to assign a value to a symbol.
+
+ - sscanf has a new prefix char, @, with the same behaviour
+   than %, but without pushing the matched value to the stack.
+
+0.9.26h - jue jun 21 17:54:16 CEST 2001
+---------------------------------------
+
+ - New setdoc and getdoc commands.
+
+ - filp can now be built as a shared library.
+
+0.9.26g - vie abr 27 16:47:21 CEST 2001
+---------------------------------------
+
+ - New mechanism for post-deleting filp code in use.
+
+ - filp_console() is now exitable by typing 'end' (semantically
+   correct) and informs of errors.
+
+ - New function, filp_new_bin_code_value().
+
+ - Bug fixed in ains.
+
+ - New command, putenv.
+
+ - New error codes: 2 (scalar expected), 3 (internal error), 4 (out of
+   memory), 5 (array expected)
+
+ - libfilp can be built as a shared library under Linux.
+
+0.9.26f - jue mar 15 17:20:54 CET 2001
+--------------------------------------
+
+ - Bug fixed in +=, -=, *= and /= introduced in previous
+   _filp_current_token elimination.
+
+0.9.26e - jue mar 15 00:58:36 CET 2001
+--------------------------------------
+
+ - Got rid of _filp_current_token.
+
+ - New function, filp_execv().
+
+0.9.26d - lun mar 12 15:55:32 CET 2001
+--------------------------------------
+
+ - Fixed two important bugs: only scalar symbols were really
+   destroyed (!) and, in symbol reassignation, the original
+   type remained (even when a bin_code were reassigned a code,
+   causing segfaults).
+
+0.9.26c - mié mar  7 20:14:44 CET 2001
+--------------------------------------
+
+ - The hash function for storing the dictionary has changed.
+
+0.9.26b - dom feb 25 15:38:16 CET 2001
+--------------------------------------
+
+ - BeOS support.
+
+ - New compilation flag -DWITHOUT_GLOB, for systems without glob.h.
+
+0.9.26 - dom feb 18 12:30:25 CET 2001
+-------------------------------------
+
+ - Bug fixed in propagation of the 'break' command.
+
+ - filp_console() now exits when entered the \q sequence.
+
+0.9.25 - jue feb  8 22:48:34 CET 2001
+-------------------------------------
+
+ - 'sscanf' now does not generate a NULL behind all extracted
+   strings.
+
+ - New variable $filp_compile_options.
+
+ - Makefile tuning.
+
+0.9.24 - lun feb  5 15:51:45 CET 2001
+-------------------------------------
+
+ - 'exit' instruction renamed to 'break'.
+
+0.9.23 - sáb dic 23 12:34:22 CET 2000
+-------------------------------------
+
+ - New dictionary now uses a simple hash to store the symbols, and
+   performance must be improved (no serious error testing yet).
+ - Symbols which first char is not ascii (i.e.: > 127) are not
+   allowed anymore.
+ - New error created: 'invalid symbol name', generated by
+   filp_new_symbol().
+ - New command/operator: 'mod' and '%', integer modulo (remainder
+   of a division). This operation is always done in integer
+   mode, even if $filp_real is set.
+
+0.9.22j - dom dic  3 18:49:37 CET 2000
+--------------------------------------
+
+ - Made errno accessible, new function strerror, new array of error
+   strings /filp_error_strings, now storing the internal error number
+   in filp_error as a subscript to filp_error_strings (additional
+   printable info is in $filp_error_info as usual). This interface
+   to filp errors may change, because in filp there is only one real
+   error (the 'token not found' error).
+
+0.9.22i - mar nov 28 19:46:36 CET 2000
+--------------------------------------
+
+ - Got rid of using GNU readline library. No problem with it (it's very
+   good software), but made necessary to link filp programs using
+   filp_console() (as the interpreter) with curses. Instead, a small
+   stripped-down readline clone is builtin that just uses termios.h (and
+   if not available defaults to fgets()).
+
+0.9.22h - dom nov 26 22:37:47 CET 2000
+--------------------------------------
+
+ - filp_push_dict() now returns the number of dictionary elements sent to
+   the stack.
+
+0.9.22g - sáb nov 18 10:08:00 CET 2000
+--------------------------------------
+
+ - Move _filp_cpu_time_stats() to filp_slib.c, as is strongly
+   system-dependent (and it didn't work in win32).
+
+ - Got rid of filp_main.c and moved its functions to filp_lib.c.
+
+0.9.22f - lun nov 13 16:26:24 CET 2000
+--------------------------------------
+
+ - Use of GNU readline in filp_interp.c (can be overriden).
+
+0.9.22e - dom nov 12 15:26:25 CET 2000
+--------------------------------------
+
+ - Start of using this changelog.
+
+ - Use of gettimeofday() in computing $filp_cpu_time_account.
+
+0.9.22d - 1 nov 2000
+--------------------
+
+ - Implementation of 'glob' in Win32 (Borland C).

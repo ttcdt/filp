@@ -1,0 +1,50 @@
+/* utilidades filp (C) Angel Ortega 2000 */
+
+/* calcula cuántos ciclos de instrucciones filp
+   se pueden ejecutar en 1 segundo */
+/_filp_benchmark {
+	_tmp 0 set
+	time { dup time != { exit } if } loop
+	time { dup time != { exit } if _tmp ++ } loop
+	pop pop $_tmp
+} set
+
+/* devuelve el porcentaje de batería disponible (en laptops) */
+/_filp_apm {
+	"cat /proc/apm" shell
+	" " split pop pop
+	_tmp swap set
+	{ pop } foreach $_tmp
+} set
+
+/* versión de _filp_apm con ficheros */
+/_filp_apm2
+{
+	"/proc/apm" open dup read swap close
+	" " split pop pop
+	_tmp swap set
+	{ pop } foreach $_tmp
+} set
+
+
+/* versión de _filp_apm con ficheros e index */
+/_filp_apm3
+{
+	/* "cat /proc/apm" shell " " split 3 index */
+
+	"/proc/apm" open dup read swap close
+	" " split 3 index
+} set
+
+/* crea las variables de la versión */
+$filp_version "." split
+"filp_revision" # =
+"filp_min_version" # =
+"filp_maj_version" # =
+pop
+
+[
+{ true } { "Otro" }
+{ $filp_arch "win32" eq } { "Microsoft Windows" }
+{ $filp_arch "linux" eq } { "GNU/Linux" }
+switch

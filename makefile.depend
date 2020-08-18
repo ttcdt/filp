@@ -1,0 +1,8 @@
+filp_array.o: filp_array.c config.h filp.h
+filp_core.o: filp_core.c config.h filp.h
+filp_interp.o: filp_interp.c config.h filp.h
+filp_lib.o: filp_lib.c config.h filp.h
+filp_parse.o: filp_parse.c config.h filp.h
+filp_slib.o: filp_slib.c config.h filp.h gnu_regex.h
+filp_util.o: filp_util.c config.h filp.h
+gnu_regex.o: gnu_regex.c

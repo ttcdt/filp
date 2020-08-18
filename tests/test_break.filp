@@ -1,0 +1,26 @@
+#!../filp
+
+/func { /n 1 = { $n eq 1000 { break } if /n ++ } loop "esto sí" ? } set
+/func2 { break "esto no debe salir" ? } set
+/func3 { 1 { break } if "esto tampoco" ? } set
+/func4 { func3 "esto también" ? } set
+
+/n 1 = { $n eq 1000 { break } if /n ++ } loop
+
+"hola1" ?
+
+func
+
+"hola2" ?
+
+func2
+
+"hola3" ?
+
+func3
+
+"hola4" ?
+
+func4
+
+"hola5" ?

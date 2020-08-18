@@ -1,0 +1,29 @@
+#!/usr/local/bin/filp
+
+/A "_" = /B "_" = /cnt 0 =
+
+/* reads all input file */
+{ $STDIN read }
+{
+	chop " " split reverse
+	{
+		/_ #=
+		$_ '^\w+$' regex
+		{
+			"mk-$A-$B" 0 $_ ains
+			/A $B = /B $_ =
+			/cnt ++
+		} if
+	} foreach
+} while
+
+/*
+"mk-" symbol { dup 0 aget # "%s: %d" sprintf ? } foreach
+*/
+
+/A "_" = /B "_" =
+
+$cnt {
+	"mk-$A-$B" 1 @ dup ?
+	/A $B = /B #=
+} repeat

@@ -1,0 +1,38 @@
+#!/usr/local/bin/filp
+
+/**
+ * cdtime2frames - Converts a "MM:SS:FF" string to frames
+ * @string: the string
+ *
+ * Converts a string in the format "MM:SS:FF" (minutes,
+ * seconds, frames) to frames.
+ */
+/** string cdtime2frames frames */
+/cdtime2frames
+{
+	"%d:%d:%d" sscanf 1440 * swap 24 * + +
+} set
+
+/**
+ * frames2cdtime - Converts frame to a "MM:SS:FF" string
+ * @frames: the frames to be converted
+ *
+ * Converts a frame number to a string in the format
+ * "MM:SS:FF" (minutes, seconds, frames).
+ */
+/** frames frames2cdtime string */
+/frames2cdtime
+{
+	[ swap dup 1440 / swap 1440 % dup 24 / swap 24 %
+	reverse "%02d:%02d:%02d" sprintf
+} set
+
+
+/* main */
+
+$ARGV 0 @ 2 !=
+{ "Usage: cddifftime time1 time2\n\ntime1 and time2 must be in 'MM:SS:FF' (minutes, seconds, frames) format" ? end } if
+
+$ARGV 1 @ cdtime2frames
+$ARGV 2 @ cdtime2frames
+- frames2cdtime ?
